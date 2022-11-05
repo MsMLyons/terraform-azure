@@ -93,7 +93,7 @@ resource "azurerm_subnet_network_security_group_association" "test-sga" {
 }
 
 // run terraform plan & apply 
-// run terraform state list to check for success & check Azure console
+// run terraform state list, then state show + ip resource, & check Azure console
     
 // create a public ip
 resource "azurerm_public_ip" "test-ip" {
@@ -101,6 +101,24 @@ resource "azurerm_public_ip" "test-ip" {
     resource_group_name = azurerm_resource_group.test-rg.name
     location            = azurerm_resource_group.test-rg.location
     allocation_method   = "Dynamic"
+
+    tags = {
+        environment = "dev"
+    }
+}
+    
+// create network interface
+resource "azurerm_network_interface" "test-nic" {
+    name = "test-NIC"
+    location = azurerm_resource_group.test-rg.location
+    resource_group_name = azurerm_resource_group.test-rg.name
+
+    ip_configuration {
+        name = "internal"
+        subnet_id = azurerm_subnet.test-subnet.id
+        private_ip_address_allocation = "Dynamic"
+        public_ip_address_id = azurerm_public_ip.test-ip.id
+    }
 
     tags = {
         environment = "dev"
