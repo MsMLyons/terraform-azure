@@ -154,7 +154,7 @@ resource "azurerm_linux_virtual_machine" "test-linuxVM" {
     }
     
     provisioner "local-exec" {
-        command = templatefile("windows-ssh-script.tpl", {
+        command = templatefile("${var.host_os}-ssh-script.tpl", {
             hostname = self.public_ip_address,
             user = "admin-user",
             identityfile = "~/.ssh/testazurekey"
