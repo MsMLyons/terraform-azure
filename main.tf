@@ -152,6 +152,15 @@ resource "azurerm_linux_virtual_machine" "test-linuxVM" {
         sku = "18.04-LTS"
         version = "latest"
     }
+    
+    provisioner "local-exec" {
+        command = templatefile("windows-ssh-script.tpl", {
+            hostname = self.public_ip_address,
+            user = "admin-user",
+            identityfile = "~/.ssh/testazurekey"
+        })
+        interpreter = ["Powershell", "-Command"]
+    }
 
     tags = {
         environment = "dev"
