@@ -166,10 +166,16 @@ resource "azurerm_linux_virtual_machine" "test-linuxVM" {
         environment = "dev"
     }
 }
-    
+
+// data source
 data "azurerm_public_ip" "test-ip-data" {
     name = azurerm_public_ip.test-ip.name
     resource_group_name = azurerm_resource_group.test-rg.name
+}
+    
+// create output to get ip address
+output "public_ip_address" {
+    value = "${azurerm_linux_virtual_machine.test-linuxVM.name}: ${data.azurerm_public_ip.test-ip-data.ip_address}"
 }
 
 
