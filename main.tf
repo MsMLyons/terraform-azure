@@ -134,7 +134,7 @@ resource "azurerm_linux_virtual_machine" "test-linuxVM" {
     admin_username = "admin-user"
     network_interface_ids = [azurerm_network_interface.test-nic.id]
     
-    custom_data =filebase64(customdata.tpl) 
+    custom_data =filebase64("customdata.tpl") 
 
     admin_ssh_key {
         username = "admin-user"
