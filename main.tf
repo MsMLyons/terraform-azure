@@ -84,5 +84,15 @@ resource "azurerm_network_security_rule" "test-dev-rule" {
 }
 
 // run terraform plan & apply 
+// run terraform state list to check for success & check Azure console
+
+// associate subnet with security group
+resource "azurerm_subnet_network_security_group_association" "test-sga" {
+    subnet_id = azurerm_subnet.test-subnet.id
+    network_security_group_id = azurerm_network_security_group.test-sg.id
+}
+
+// run terraform plan & apply 
+// run terraform state list to check for success & check Azure console
 
 
