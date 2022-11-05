@@ -25,4 +25,24 @@ resource "azurerm_resource_group" "test-rg" {
 
 // run terraform plan
 // then terraform apply
+    // check Azure console resource groups
+
+// create virtual network
+// format of resource group name creates a dependency
+// which means the virtual network will not deploy before the resource group
+// with destroy, the inverse is true; the vn is destroyed before the rg
+// can add multiple addresses (subnets)
+resource "azurerm_virtual_network" "test-vn" {
+    name = "test-vn"
+    resource_group_name = azurerm_resource_group.test-rg.name
+    location = azurerm_resource_group.test-rg.location
+    address_space = ["10.123.0.0/16"] 
+
+    tags = {
+        "environment" = "dev"
+    }
+}
+
+// run terraform plan
+// then terraform apply or terraform apply --auto-approve
 
