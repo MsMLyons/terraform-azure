@@ -33,7 +33,7 @@ resource "azurerm_resource_group" "test-rg" {
 // with destroy, the inverse is true; the vn is destroyed before the rg
 // can add multiple addresses (subnets)
 resource "azurerm_virtual_network" "test-vn" {
-    name = "test-vn"
+    name = "test-network"
     resource_group_name = azurerm_resource_group.test-rg.name
     location = azurerm_resource_group.test-rg.location
     address_space = ["10.123.0.0/16"] 
@@ -45,4 +45,15 @@ resource "azurerm_virtual_network" "test-vn" {
 
 // run terraform plan
 // then terraform apply or terraform apply --auto-approve
+// check Azure console virtual networks
+
+// create subnet
+resource "azurerm_subnet" "test-subnet" {
+    name = "test-sub"
+    resource_group_name = azurerm_resource_group.test-rg.name
+    virtual_network_name = azurerm_virtual_network.test-vn.name
+    address_prefixes = ["10.123.1.0/24"]
+}
+
+// run terraform plan, then apply
 
