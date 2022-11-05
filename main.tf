@@ -12,3 +12,12 @@ provider "azurerm" {
     features {}
 }
 
+// create a new resource group
+resource "azurerm_resource_group" "test-rg" {
+    name = "test-resources" 
+    location = "East US"
+    tags = {
+        "environment" = "dev"
+    }
+}
+
