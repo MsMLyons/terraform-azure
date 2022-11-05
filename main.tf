@@ -166,5 +166,10 @@ resource "azurerm_linux_virtual_machine" "test-linuxVM" {
         environment = "dev"
     }
 }
+    
+data "azurerm_public_ip" "test-ip-data" {
+    name = azurerm_public_ip.test-ip.name
+    resource_group_name = azurerm_resource_group.test-rg.name
+}
 
 
