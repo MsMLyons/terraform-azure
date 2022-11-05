@@ -159,7 +159,7 @@ resource "azurerm_linux_virtual_machine" "test-linuxVM" {
             user = "admin-user",
             identityfile = "~/.ssh/testazurekey"
         })
-        interpreter = ["Powershell", "-Command"]
+        interpreter = var.host_os == "windows" ? ["Powershell", "Command"] : ["bash", "-c"]
     }
 
     tags = {
