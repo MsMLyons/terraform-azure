@@ -94,5 +94,17 @@ resource "azurerm_subnet_network_security_group_association" "test-sga" {
 
 // run terraform plan & apply 
 // run terraform state list to check for success & check Azure console
+    
+// create a public ip
+resource "azurerm_public_ip" "test-ip" {
+    name                = "test-IP"
+    resource_group_name = azurerm_resource_group.test-rg.name
+    location            = azurerm_resource_group.test-rg.location
+    allocation_method   = "Dynamic"
+
+    tags = {
+        environment = "dev"
+    }
+}
 
 
