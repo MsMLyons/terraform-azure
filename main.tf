@@ -124,5 +124,36 @@ resource "azurerm_network_interface" "test-nic" {
         environment = "dev"
     }
 }
+    
+// create linux virtual machine
+resource "azurerm_linux_virtual_machine" "test-linuxVM" {
+    name = "test-LNUXVM"
+    resource_group_name = azurerm_resource_group.test-rg.name
+    location = azurerm_resource_group.test-rg.location
+    size = "Standard_B1s" // free tier
+    admin_username = "admin-user"
+    network_interface_ids = [azurerm_network_interface.test-nic.id]
+
+    admin_ssh_key {
+        username = "admin-user"
+        public_key = file("~/.ssh/testazurekey.pub")
+    }
+        
+    os_disk {
+        caching = "ReadWrite"
+        storage_account_type = "Standard_LRS"
+    }
+
+    source_image_reference {
+        publisher = "Canonical"
+        offer = "UbuntuServer"
+        sku = "18.04-LTS"
+        version = "latest"
+    }
+
+    tags = {
+        environment = "dev"
+    }
+}
 
 
